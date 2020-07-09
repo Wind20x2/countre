@@ -1,0 +1,36 @@
+{
+  "name": "countre",
+  "version": "0.0.1",
+  "description": "Click counter with calendar integration",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc & node build/app.js",
+    "tsc": "tsc",
+    "dev": "NODE_ENV=development concurrently --kill-others-on-fail \"yarn dev:node\" \"yarn dev:react\"",
+    "dev:node": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
+    "dev:react": "cd client && yarn start",
+    "prod": "concurrently --kill-others-on-fail \"yarn prod:node\" \"yarn prod:react\"",
+    "prod:node": "tsc & node build/app.js",
+    "prod:react": "cd client && yarn build"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.7",
+    "@types/mongoose": "^5.7.30",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
+    "mongoose": "^5.9.22",
+    "node-uuid": "^1.4.8",
+    "path": "^0.12.7",
+    "swagger-ui-express": "^4.1.4",
+    "sync-request": "^6.1.0",
+    "ts-node-dev": "^1.0.0-pre.50",
+    "typescript": "^3.9.6"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
+}

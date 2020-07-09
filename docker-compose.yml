@@ -1,0 +1,19 @@
+version: "2"
+services:
+  countre:
+    image: "node:12"
+    user: "node"
+    working_dir: /home/node/app
+    environment:
+        - VIRTUAL_HOST=countre.sujinc.com
+        - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - 3000
+    networks:
+      - local_default
+    command: "npm run prod"
+networks:
+  local_default:
+    external: true
