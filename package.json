@@ -5,12 +5,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "tsc & node build/app.js",
     "tsc": "tsc",
-    "dev": "NODE_ENV=development concurrently --kill-others-on-fail \"yarn dev:node\" \"yarn dev:react\"",
+    "start": "NODE_ENV=development concurrently --kill-others-on-fail \"yarn dev:node\" \"yarn dev:react\"",
     "dev:node": "ts-node-dev --respawn --transpileOnly ./app/app.ts",
     "dev:react": "cd client && yarn start",
-    "prod": "concurrently --kill-others-on-fail \"yarn prod:node\" \"yarn prod:react\"",
+    "prod": "NODE_ENV=production concurrently --kill-others-on-fail \"yarn prod:node\" \"yarn prod:react\"",
     "prod:node": "tsc & node build/app.js",
     "prod:react": "cd client && yarn build"
   },
@@ -31,6 +30,9 @@
     "typescript": "^3.9.6"
   },
   "devDependencies": {
-    "concurrently": "^5.2.0"
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
+    "concurrently": "^5.2.0",
+    "eslint": "^7.4.0"
   }
 }
