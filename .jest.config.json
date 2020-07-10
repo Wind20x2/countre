@@ -1,0 +1,11 @@
+{
+    "testRegex": [
+        "((\\.|/*.)(spec))\\.ts?$",
+        "((\\.|/*.)(spec))\\.tsx?$",
+        "((\\.|/*.)(spec))\\.js?$"
+    ],
+    "testPathIgnorePatterns": [
+        "/node_modules/",
+        "/client/"
+    ]
+}
