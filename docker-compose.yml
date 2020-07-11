@@ -1,12 +1,14 @@
 version: "2"
 services:
   countre:
+    container_name: countre
     image: "node:12"
     user: "node"
     working_dir: /home/node/app
     environment:
         - VIRTUAL_HOST=countre.sujinc.com
         - NODE_ENV=production
+        - MONGO_HOSTNAME=mongo
     volumes:
       - ./:/home/node/app
     expose:
@@ -14,6 +16,21 @@ services:
     networks:
       - local_default
     command: "npm run prod"
+    depends_on:
+      - mongo
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+    networks:
+      - local_default
 networks:
   local_default:
     external: true
+volumes:
+  mongo:
