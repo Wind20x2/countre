@@ -1,5 +1,5 @@
+import { IGoogleUser } from 'app/utils/googleapi'
 import { UserModel, IUserDoc } from './model'
-import { IGoogleUser } from '../../utils/googleapi'
 
 export class UserController {
     async getUsers(): Promise<IUserDoc[]> {
@@ -10,7 +10,7 @@ export class UserController {
         return await UserModel.findOne({ email })
             .then((user) => {
                 if (!user) {
-                    throw Error()
+                    throw 'Cannot find a user'
                 }
                 return user
             })
@@ -31,11 +31,9 @@ export class UserController {
 
     async addUser(googleUser: IGoogleUser): Promise<IUserDoc> {
         const user = new UserModel({
-            resourceName: googleUser.resourceName,
             email: googleUser.email,
             name: googleUser.name,
             photo: googleUser.photo,
-            tokens: '',
         })
 
         return user.save().catch((e) => {

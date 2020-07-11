@@ -1,12 +1,12 @@
 // app/mongo.ts
 import mongoose from 'mongoose'
+import { isDev } from 'app/utils/environment'
 
-const connection =
-    process.env.NODE_ENN === 'development' ? 'mongodb://localhost:27017/countre' : 'mongodb://mongo:27017/countre'
+export const connectionUrl = isDev() ? 'mongodb://localhost:27017/countre' : 'mongodb://mongo:27017/countre'
 
 export const connectDb = async (): Promise<typeof mongoose> => {
     return mongoose
-        .connect(connection, {
+        .connect(connectionUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
@@ -15,7 +15,7 @@ export const connectDb = async (): Promise<typeof mongoose> => {
             return db
         })
         .catch((e) => {
-            console.error(`Mongo connect failure on: ${connection}`)
+            console.error(`Mongo connect failure on: ${connectionUrl}`)
             throw e
         })
 }

@@ -1,20 +1,15 @@
 // @see https://medium.com/@jackrobertscott/how-to-use-google-auth-api-with-node-js-888304f7e3a0
 // @see https://developers.google.com/people/quickstart/nodejs
 
-import fs from 'fs'
-import path from 'path'
 import { google } from 'googleapis'
 import { OAuth2Client } from 'googleapis-common'
 import { Credentials } from 'google-auth-library'
-
-type NullableString = string | null
+import { credential } from './credential'
 
 export interface IGoogleUser {
-    resourceName: string
     email: string
     name: string
     photo: string
-    tokens: Credentials
 }
 
 const defaultScope = [
@@ -27,16 +22,8 @@ const defaultScope = [
  * @return {OAuth2Client | string}
  */
 const createConnection = (): OAuth2Client => {
-    const content = fs.readFileSync(path.resolve(__dirname, '../', '../', '../', 'credential.json'))
-
-    if (!content) {
-        throw Error('Error loading client secret file')
-    }
-
-    const credential = JSON.parse(content.toString())
-
-    const { client_secret, client_id, redirect_uris } = credential.web
-    return new google.auth.OAuth2(client_id, client_secret, redirect_uris[0])
+    const content = credential()
+    return new google.auth.OAuth2(content.client_id, content.client_secret, content.redirect_uri)
 }
 
 /**
@@ -107,15 +94,13 @@ export const getGoogleAccountFromCode = async (code: string): Promise<IGoogleUse
     const name = (me.data.names && me.data.names[0] && me.data.names[0].displayName) || null
     const photo = (me.data.photos && me.data.photos[0] && me.data.photos[0].url) || ''
 
-    if (!me.data.resourceName || !email || !name) {
+    if (!email || !name) {
         throw Error('Google account information is missing.')
     }
 
     return {
-        resourceName: me.data.resourceName,
         email,
         name,
         photo,
-        tokens,
     }
 }
