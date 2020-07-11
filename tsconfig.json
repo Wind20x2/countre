@@ -13,7 +13,10 @@
     "paths": {
       "app/*": [
         "app/*"
-      ]
+      ],
+      "src/*": [
+        "client/src/*"
+      ],
     },
     "plugins": [
       {

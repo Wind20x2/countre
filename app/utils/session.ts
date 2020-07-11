@@ -4,6 +4,7 @@ import connectMongo from 'connect-mongo'
 
 import { connectionUrl } from 'app/mongo'
 import { credential } from './credential'
+import { isDev } from './environment'
 
 export const sessionSecret = (): string => {
     const content = credential()
@@ -12,6 +13,12 @@ export const sessionSecret = (): string => {
 
 // middleware to secure request
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction): Response | undefined => {
+    // Dev server allows to get api-key for Postman
+    if (isDev() && req.header('api-key') === credential().devApiKey) {
+        next() // to continue the flow
+        return
+    }
+
     const session = req.session
 
     if (!session || !session.loggedInUser) {

@@ -7,6 +7,7 @@ interface ICredential {
     redirect_uri: string
     secret: string
     devUserEmail: string
+    devApiKey: string
 }
 
 export const credential = (): ICredential => {
@@ -15,12 +16,13 @@ export const credential = (): ICredential => {
         throw Error('Error loading client secret file')
     }
     const credential = JSON.parse(content.toString())
-    const { client_secret, client_id, redirect_uris } = credential.web
+    const { client_secret, client_id, redirect_uris, secret, devUserEmail, devApiKey } = credential
     return {
         client_secret,
         client_id,
         redirect_uri: redirect_uris[0],
-        secret: credential.secret,
-        devUserEmail: credential.devUserEmail,
+        secret,
+        devUserEmail,
+        devApiKey,
     }
 }
